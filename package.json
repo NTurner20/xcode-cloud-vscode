@@ -2,7 +2,7 @@
   "name": "xcode-cloud",
   "displayName": "Xcode Cloud",
   "description": "Integrate with Apple's Xcode Cloud CI/CD service via the App Store Connect API",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "NTurner20",
   "license": "MIT",
   "repository": {
