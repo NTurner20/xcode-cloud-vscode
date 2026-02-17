@@ -2,12 +2,17 @@
 .vscode-test/**
 src/**
 test/**
+out/test/**
 .github/**
 .gitignore
 .eslintrc.json
 .commitlintrc.json
+.husky/**
 tsconfig.json
 **/*.map
 **/*.ts
 node_modules/**
 PROGRESS.md
+release-please-config.json
+.release-please-manifest.json
+*.vsix

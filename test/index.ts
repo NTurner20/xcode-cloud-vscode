@@ -1,3 +1,2 @@
-// Test runner — implemented in Phase 6
-// For now, exit cleanly so `npm test` passes
-process.exit(0);
+// Test entry point — mocha discovers tests via out/test/suite/**/*.test.js
+// This file is kept for compatibility but is no longer the primary entry.
