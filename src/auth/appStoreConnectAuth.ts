@@ -34,24 +34,6 @@ export class AppStoreConnectAuth {
             return false;
         }
 
-        const apiKeyId = await vscode.window.showInputBox({
-            prompt: 'Enter your API Key ID',
-            placeHolder: 'e.g. ABC1234DEF',
-            ignoreFocusOut: true,
-        });
-        if (!apiKeyId) {
-            return false;
-        }
-
-        const issuerId = await vscode.window.showInputBox({
-            prompt: 'Enter your Issuer ID',
-            placeHolder: 'e.g. 12345678-1234-1234-1234-123456789012',
-            ignoreFocusOut: true,
-        });
-        if (!issuerId) {
-            return false;
-        }
-
         let privateKey: string | undefined;
 
         if (method.value === 'file') {
@@ -76,6 +58,24 @@ export class AppStoreConnectAuth {
         }
 
         if (!privateKey) {
+            return false;
+        }
+
+        const apiKeyId = await vscode.window.showInputBox({
+            prompt: 'Enter your API Key ID',
+            placeHolder: 'e.g. ABC1234DEF',
+            ignoreFocusOut: true,
+        });
+        if (!apiKeyId) {
+            return false;
+        }
+
+        const issuerId = await vscode.window.showInputBox({
+            prompt: 'Enter your Issuer ID',
+            placeHolder: 'e.g. 12345678-1234-1234-1234-123456789012',
+            ignoreFocusOut: true,
+        });
+        if (!issuerId) {
             return false;
         }
 
