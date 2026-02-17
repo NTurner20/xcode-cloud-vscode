@@ -7,6 +7,7 @@ import { registerAuthCommands } from './commands/authCommands';
 import { registerBuildCommands } from './commands/buildCommands';
 import { registerLogCommands } from './commands/logCommands';
 import { LogContentProvider, LOG_SCHEME } from './providers/logContentProvider';
+import { StatusBarManager } from './statusBar';
 import { log, disposeLogger } from './logger';
 
 let auth: AppStoreConnectAuth;
@@ -42,8 +43,12 @@ export function activate(context: vscode.ExtensionContext): void {
         return config.get<number>('pollingIntervalSeconds', 30);
     };
 
+    // Status bar manager
+    const statusBar = new StatusBarManager(api, auth);
+
     const poller = new Poller(async () => {
         treeProvider.refresh();
+        await statusBar.update();
     }, getPollingInterval);
 
     treeView.onDidChangeVisibility((e) => {
@@ -81,7 +86,7 @@ export function activate(context: vscode.ExtensionContext): void {
     registerBuildCommands(context, api, auth, treeProvider, poller);
     registerLogCommands(context, logProvider);
 
-    context.subscriptions.push(treeView, lastRefreshedItem, poller, logProvider, logProviderRegistration);
+    context.subscriptions.push(treeView, lastRefreshedItem, poller, logProvider, logProviderRegistration, statusBar);
 
     log('Xcode Cloud extension activated');
 }
