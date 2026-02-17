@@ -5,6 +5,8 @@ import { BuildTreeProvider } from './providers/buildTreeProvider';
 import { Poller } from './poller';
 import { registerAuthCommands } from './commands/authCommands';
 import { registerBuildCommands } from './commands/buildCommands';
+import { registerLogCommands } from './commands/logCommands';
+import { LogContentProvider, LOG_SCHEME } from './providers/logContentProvider';
 import { log, disposeLogger } from './logger';
 
 let auth: AppStoreConnectAuth;
@@ -67,18 +69,19 @@ export function activate(context: vscode.ExtensionContext): void {
         }
     });
 
+    // Log content provider
+    const logProvider = new LogContentProvider(api);
+    const logProviderRegistration = vscode.workspace.registerTextDocumentContentProvider(
+        LOG_SCHEME,
+        logProvider,
+    );
+
     // Register command modules
     registerAuthCommands(context, auth, treeProvider, poller);
     registerBuildCommands(context, api, auth, treeProvider, poller);
+    registerLogCommands(context, logProvider);
 
-    // Stub commands for later phases
-    context.subscriptions.push(
-        vscode.commands.registerCommand('xcodeCloud.viewLogs', () => {
-            // Stub — wired up in Phase 4
-        }),
-    );
-
-    context.subscriptions.push(treeView, lastRefreshedItem, poller);
+    context.subscriptions.push(treeView, lastRefreshedItem, poller, logProvider, logProviderRegistration);
 
     log('Xcode Cloud extension activated');
 }
