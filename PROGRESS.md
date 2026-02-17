@@ -1,27 +1,33 @@
 # Progress
 
 ## Current Phase
-Phase 1 — Auth & API Client (In Progress)
+Phase 2 — Tree View & Sidebar (Complete)
 
 ## Completed
 ### Phase 0 — Repository & Project Bootstrap
-- [x] GitHub repo created (`NTurner20/xcode-cloud-vscode`)
-- [x] Project scaffold with full directory structure
-- [x] `package.json` with all contributes (commands, views, menus, configuration)
-- [x] TypeScript strict mode, ESLint, commitlint + husky
-- [x] CI workflow — lint, typecheck, test, build — all green
-- [x] Release workflow — package, publish, GitHub release skeleton
-- [x] PR template
-- [x] Branch protection via rulesets (requires PR + status checks)
-- [x] Initial commit pushed, CI passing
+- [x] GitHub repo, CI/CD workflows, branch protection, initial commit
+
+### Phase 1 — Auth & API Client
+- [x] JWT (ES256) auth with .p8 private key
+- [x] SecretStorage for credentials
+- [x] Typed API client for all Xcode Cloud endpoints
+- [x] Centralized error handling
+- [x] PR #1 merged
+
+### Phase 2 — Tree View & Sidebar
+- [x] BuildTreeProvider with Products → Workflows → Build Runs
+- [x] Status icons for build states
+- [x] Metadata in descriptions/tooltips (branch, duration, commit)
+- [x] Poller with configurable interval and exponential backoff
+- [x] Visibility-aware polling (only when sidebar visible)
+- [x] Last refreshed timestamp in status bar
+- [x] Manual refresh button
+- [x] Context menus with contextValue for actions
 
 ## In Progress
-- [ ] JWT authentication with ES256 signing
-- [ ] SecretStorage for credentials
-- [ ] Typed API client for Xcode Cloud endpoints
+- None
 
 ## Up Next
-- Phase 2 — Tree View & Sidebar
 - Phase 3 — Commands & Build Management
 - Phase 4 — Log Viewing
 - Phase 5 — Notifications & Status Bar
@@ -33,6 +39,8 @@ Phase 1 — Auth & API Client (In Progress)
 ## Architecture Decisions
 - `rootDir: "."` so tests compile alongside source (`out/src/`, `out/test/`)
 - Main entry point: `./out/src/extension.js`
-- Test runner placeholder exits cleanly until Phase 6
 - `jsonwebtoken` is the only runtime dependency (for ES256 JWT signing)
 - Using native `fetch` (Node 18+) for HTTP — no axios/got
+- BuildTreeItem extends vscode.TreeItem with typed itemType and attached data
+- Poller uses setTimeout chain (not setInterval) for backoff compatibility
+- Tree view shows products expanded by default, workflows collapsed
