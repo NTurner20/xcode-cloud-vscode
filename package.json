@@ -1,0 +1,177 @@
+{
+  "name": "xcode-cloud",
+  "displayName": "Xcode Cloud",
+  "description": "Integrate with Apple's Xcode Cloud CI/CD service via the App Store Connect API",
+  "version": "0.0.1",
+  "publisher": "NTurner20",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NTurner20/xcode-cloud-vscode"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "SCM Providers"
+  ],
+  "keywords": [
+    "xcode",
+    "xcode cloud",
+    "apple",
+    "ci/cd",
+    "app store connect",
+    "ios",
+    "macos"
+  ],
+  "icon": "resources/icon.png",
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "activationEvents": [],
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "xcodeCloud.signIn",
+        "title": "Xcode Cloud: Sign In"
+      },
+      {
+        "command": "xcodeCloud.signOut",
+        "title": "Xcode Cloud: Sign Out"
+      },
+      {
+        "command": "xcodeCloud.refresh",
+        "title": "Xcode Cloud: Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "xcodeCloud.triggerBuild",
+        "title": "Xcode Cloud: Trigger Build",
+        "icon": "$(play)"
+      },
+      {
+        "command": "xcodeCloud.cancelBuild",
+        "title": "Xcode Cloud: Cancel Build",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "xcodeCloud.viewLogs",
+        "title": "Xcode Cloud: View Logs",
+        "icon": "$(output)"
+      },
+      {
+        "command": "xcodeCloud.openInBrowser",
+        "title": "Xcode Cloud: Open in Browser",
+        "icon": "$(link-external)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "xcodeCloud",
+          "title": "Xcode Cloud",
+          "icon": "resources/xcode-cloud.svg"
+        }
+      ]
+    },
+    "views": {
+      "xcodeCloud": [
+        {
+          "id": "xcodeCloudBuilds",
+          "name": "Builds"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "xcodeCloud.refresh",
+          "when": "view == xcodeCloudBuilds",
+          "group": "navigation"
+        },
+        {
+          "command": "xcodeCloud.triggerBuild",
+          "when": "view == xcodeCloudBuilds",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "xcodeCloud.triggerBuild",
+          "when": "view == xcodeCloudBuilds && viewItem == workflow",
+          "group": "inline"
+        },
+        {
+          "command": "xcodeCloud.cancelBuild",
+          "when": "view == xcodeCloudBuilds && viewItem == buildRun-running",
+          "group": "inline"
+        },
+        {
+          "command": "xcodeCloud.viewLogs",
+          "when": "view == xcodeCloudBuilds && viewItem =~ /^buildRun/",
+          "group": "1_actions"
+        },
+        {
+          "command": "xcodeCloud.openInBrowser",
+          "when": "view == xcodeCloudBuilds && viewItem =~ /^buildRun/",
+          "group": "1_actions"
+        },
+        {
+          "command": "xcodeCloud.cancelBuild",
+          "when": "view == xcodeCloudBuilds && viewItem == buildRun-running",
+          "group": "2_manage"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Xcode Cloud",
+      "properties": {
+        "xcodeCloud.pollingIntervalSeconds": {
+          "type": "number",
+          "default": 30,
+          "minimum": 10,
+          "description": "Interval in seconds between automatic refreshes of build data."
+        },
+        "xcodeCloud.showStatusBarItem": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Xcode Cloud status bar item."
+        },
+        "xcodeCloud.notifyOnBuildComplete": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show notifications when builds complete."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/index.js",
+    "pretest": "npm run compile",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.56.0",
+    "husky": "^9.0.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0"
+  }
+}
